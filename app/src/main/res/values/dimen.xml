@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="celebrity_image_size">250dp</dimen>
+    <dimen name="celebrity_image_margin_top">64dp</dimen>
+    <dimen name="celebrity_answer_margin_top">18sp</dimen>
+    <dimen name="answer_button_default_margin">16dp</dimen>
+    <dimen name="default_text_size">32sp</dimen>
+</resources>
