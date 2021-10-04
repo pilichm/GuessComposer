@@ -7,9 +7,14 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jsoup.Jsoup
 import java.io.BufferedInputStream
@@ -18,12 +23,81 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
     private val mComposersData: ArrayList<Composer> = ArrayList()
+    private var nextQuestionIndex:Int = 0
+    private var mCorrectCount: Int = 0
+    private var mGuessedFirstTime: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        showProgressView()
         downloadComposersData()
+        setUpListeners()
+    }
+
+    /**
+     * Adds listeners to text views with answers.
+     * */
+    private fun setUpListeners(): Unit{
+        for (position in (1..4)){
+            val currentView = layoutMain.findViewWithTag<TextView>(position.toString())
+            currentView.setOnClickListener {
+                if (nextQuestionIndex<=mComposersData.size){
+
+                    if (nextQuestionIndex==mComposersData.size){
+                        Handler(Looper.getMainLooper()).postDelayed(
+                            {showEndInfo()}, NEXT_QUESTION_DELAYED
+                        )
+                    } else {
+                        val correctIndex = nextQuestionIndex - 1
+                        Log.e("COMP", "${currentView.text} == ${mComposersData[correctIndex].name}")
+                        if (currentView.text==mComposersData[correctIndex].name){
+                            currentView.setBackgroundColor(
+                                ContextCompat.getColor(applicationContext, R.color.color_correct))
+
+                            if (mGuessedFirstTime) {
+                                mCorrectCount++
+                            }
+
+                            mGuessedFirstTime = true
+
+                            Toast.makeText(
+                                applicationContext,
+                                resources.getString(R.string.answer_correct),
+                                Toast.LENGTH_SHORT).show()
+
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                showProgressView()
+                                setUpNextQuestion()
+                                showQuestionViews()
+                            }, NEXT_QUESTION_DELAYED)
+                        } else {
+                            mGuessedFirstTime = false
+
+                            Toast.makeText(
+                                applicationContext,
+                                resources.getString(R.string.answer_incorrect),
+                                Toast.LENGTH_SHORT).show()
+                            currentView.setBackgroundColor(
+                                ContextCompat.getColor(applicationContext, R.color.color_incorrect))
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Adds listener to replay button.
+         * */
+        imagePlayAgain.setOnClickListener {
+            nextQuestionIndex = 0
+            mCorrectCount = 0
+            mComposersData.shuffle()
+            showProgressView()
+            setUpNextQuestion()
+            showQuestionViews()
+        }
     }
 
     /**
@@ -73,19 +147,31 @@ class MainActivity : AppCompatActivity() {
          * Sets up first question with answers.
          */
         override fun onPostExecute(result: Int?) {
-            DownloadImageAsyncTask().execute(mComposersData[0].imageUrl)
-            val correctPosition = (1..4).random()
-            for (position in 1..4){
-                val currentView = layoutMain.findViewWithTag<TextView>(position.toString())
-                    if (correctPosition==position){
-                        currentView.text = mComposersData[0].name
-                    } else {
-                        val index = (0..mComposersData.size).random()
-                        currentView.text = mComposersData[index].name
-                    }
-                }
+            mComposersData.shuffle()
+            setUpNextQuestion()
             }
         }
+
+    /**
+     * Downloads image for next composer, and sets up question and random answers.
+     * */
+    private fun setUpNextQuestion(){
+        clearAnswersBackground()
+        DownloadImageAsyncTask().execute(mComposersData[nextQuestionIndex].imageUrl)
+        val correctPosition = (1..4).random()
+        for (index in 1..4){
+            val currentView = layoutMain.findViewWithTag<TextView>(index.toString())
+            if (correctPosition==index){
+                currentView.text = mComposersData[nextQuestionIndex].name
+            } else {
+                val randomIndex = (0 until mComposersData.size).random()
+                currentView.text = mComposersData[randomIndex].name
+            }
+        }
+
+        nextQuestionIndex++
+        showQuestionViews()
+    }
 
     /**
      * Async task for downloading composer image.
@@ -117,7 +203,50 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Shows views displaying composers image, question and answers, hides progress bar.
+     * */
+    private fun showQuestionViews(){
+        progressBar.visibility = View.INVISIBLE
+        tvEnd.visibility = View.INVISIBLE
+        layoutMain.visibility = View.VISIBLE
+        imagePlayAgain.visibility = View.INVISIBLE
+    }
+
+    /**
+     * Hides views displaying composers image, question and answers, shows progress bar.
+     * */
+    private fun showProgressView(){
+        progressBar.visibility = View.VISIBLE
+        layoutMain.visibility = View.INVISIBLE
+        imagePlayAgain.visibility = View.INVISIBLE
+        tvEnd.visibility = View.INVISIBLE
+    }
+
+    /**
+     * Displays information that app has ended. Hides progress, question and answers views.
+     * */
+    private fun showEndInfo(){
+        progressBar.visibility = View.INVISIBLE
+        layoutMain.visibility = View.INVISIBLE
+        imagePlayAgain.visibility = View.VISIBLE
+        tvEnd.visibility = View.VISIBLE
+        tvEnd.text = "Your guessed first time:\n $mCorrectCount times! \n Tap below to play again."
+    }
+
+    /**
+     * Clears background color of all answer views.
+     * */
+    private fun clearAnswersBackground(){
+        for (position in (1..4)) {
+            val currentView = layoutMain.findViewWithTag<TextView>(position.toString())
+            currentView.setBackgroundColor(
+                ContextCompat.getColor(applicationContext, R.color.answer_button_background_color))
+        }
+    }
+
     companion object {
         const val DATA_URL = "https://www.imdb.com/list/ls053620576/"
+        const val NEXT_QUESTION_DELAYED = 333L
     }
 }

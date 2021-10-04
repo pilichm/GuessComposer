@@ -1,89 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/layoutMain"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutMain"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <ImageView
+            android:id="@+id/celebrityImageView"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="@dimen/celebrity_image_size"
+            android:layout_height="@dimen/celebrity_image_size"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/celebrity_image_margin_top"/>
+
+        <TextView
+            android:id="@+id/buttonAnswer1"
+            android:tag="1"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/answer_button_text_color"
+            android:gravity="center"
+            android:text="@string/default_celebrity_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/answer_button_background_color"
+            android:layout_marginTop="@dimen/celebrity_answer_margin_top"
+            android:layout_marginStart="@dimen/celebrity_answer_margin_top"
+            android:layout_marginEnd="@dimen/celebrity_answer_margin_top"
+            app:layout_constraintTop_toBottomOf="@id/celebrityImageView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/buttonAnswer2"
+            android:tag="2"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/answer_button_text_color"
+            android:gravity="center"
+            android:text="@string/default_celebrity_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/answer_button_background_color"
+            android:layout_marginTop="@dimen/celebrity_answer_margin_top"
+            android:layout_marginStart="@dimen/celebrity_answer_margin_top"
+            android:layout_marginEnd="@dimen/celebrity_answer_margin_top"
+            app:layout_constraintTop_toBottomOf="@id/buttonAnswer1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/buttonAnswer3"
+            android:tag="3"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/answer_button_text_color"
+            android:gravity="center"
+            android:text="@string/default_celebrity_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/answer_button_background_color"
+            android:layout_marginTop="@dimen/celebrity_answer_margin_top"
+            android:layout_marginStart="@dimen/celebrity_answer_margin_top"
+            android:layout_marginEnd="@dimen/celebrity_answer_margin_top"
+            app:layout_constraintTop_toBottomOf="@id/buttonAnswer2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/buttonAnswer4"
+            android:tag="4"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/answer_button_text_color"
+            android:gravity="center"
+            android:text="@string/default_celebrity_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/answer_button_background_color"
+            android:layout_marginTop="@dimen/celebrity_answer_margin_top"
+            android:layout_marginStart="@dimen/celebrity_answer_margin_top"
+            android:layout_marginEnd="@dimen/celebrity_answer_margin_top"
+            app:layout_constraintTop_toBottomOf="@id/buttonAnswer3"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/progress_bar_size"
+        android:minWidth="@dimen/progress_bar_size"
+        android:indeterminate="true" />
+
+    <TextView
+        android:id="@+id/tvEnd"
+        android:textSize="@dimen/default_text_size"
+        android:textColor="@color/answer_button_text_color"
+        android:text="@string/app_end"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <ImageView
-        android:id="@+id/celebrityImageView"
-        android:src="@mipmap/ic_launcher"
-        android:layout_width="@dimen/celebrity_image_size"
-        android:layout_height="@dimen/celebrity_image_size"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/celebrity_image_margin_top"/>
+        android:id="@+id/imagePlayAgain"
+        android:layout_below="@id/tvEnd"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_restart_24"
+        android:layout_width="@dimen/progress_bar_size"
+        android:layout_height="@dimen/progress_bar_size"/>
 
-    <TextView
-        android:id="@+id/buttonAnswer1"
-        android:tag="1"
-        android:textSize="@dimen/default_text_size"
-        android:textColor="@color/answer_button_text_color"
-        android:gravity="center"
-        android:text="@string/default_celebrity_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/answer_button_background_color"
-        android:layout_marginTop="@dimen/celebrity_answer_margin_top"
-        android:layout_marginStart="@dimen/celebrity_answer_margin_top"
-        android:layout_marginEnd="@dimen/celebrity_answer_margin_top"
-        app:layout_constraintTop_toBottomOf="@id/celebrityImageView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <TextView
-        android:id="@+id/buttonAnswer2"
-        android:tag="2"
-        android:textSize="@dimen/default_text_size"
-        android:textColor="@color/answer_button_text_color"
-        android:gravity="center"
-        android:text="@string/default_celebrity_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/answer_button_background_color"
-        android:layout_marginTop="@dimen/celebrity_answer_margin_top"
-        android:layout_marginStart="@dimen/celebrity_answer_margin_top"
-        android:layout_marginEnd="@dimen/celebrity_answer_margin_top"
-        app:layout_constraintTop_toBottomOf="@id/buttonAnswer1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <TextView
-        android:id="@+id/buttonAnswer3"
-        android:tag="3"
-        android:textSize="@dimen/default_text_size"
-        android:textColor="@color/answer_button_text_color"
-        android:gravity="center"
-        android:text="@string/default_celebrity_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/answer_button_background_color"
-        android:layout_marginTop="@dimen/celebrity_answer_margin_top"
-        android:layout_marginStart="@dimen/celebrity_answer_margin_top"
-        android:layout_marginEnd="@dimen/celebrity_answer_margin_top"
-        app:layout_constraintTop_toBottomOf="@id/buttonAnswer2"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <TextView
-        android:id="@+id/buttonAnswer4"
-        android:tag="4"
-        android:textSize="@dimen/default_text_size"
-        android:textColor="@color/answer_button_text_color"
-        android:gravity="center"
-        android:text="@string/default_celebrity_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/answer_button_background_color"
-        android:layout_marginTop="@dimen/celebrity_answer_margin_top"
-        android:layout_marginStart="@dimen/celebrity_answer_margin_top"
-        android:layout_marginEnd="@dimen/celebrity_answer_margin_top"
-        app:layout_constraintTop_toBottomOf="@id/buttonAnswer3"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

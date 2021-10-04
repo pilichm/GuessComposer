@@ -10,4 +10,6 @@
     
     <color name="answer_button_background_color">#D3D3D3</color>
     <color name="answer_button_text_color">#FF000000</color>
+    <color name="color_correct">#006400</color>
+    <color name="color_incorrect">#FF0000</color>
 </resources>

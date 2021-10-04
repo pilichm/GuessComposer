@@ -3,4 +3,5 @@
     <string name="answer_correct">Correct!</string>
     <string name="answer_incorrect">Incorrect!</string>
     <string name="default_celebrity_name">Name Surname</string>
+    <string name="app_end">The End</string>
 </resources>
