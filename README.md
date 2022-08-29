@@ -13,6 +13,7 @@ Features:
 Used technologies:
 -
 - AsyncTask for downloading list of composers names, image urls and ownloading images from url,
+- finding views from layout with view binding.
 
 App Screenshots
 -
